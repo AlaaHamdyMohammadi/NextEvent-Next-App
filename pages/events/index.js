@@ -1,4 +1,4 @@
-function EventsPage() {
+function AllEventsPage() {
   return (
     <div>
       <h1>Events Page 🎉</h1>
@@ -6,4 +6,4 @@ function EventsPage() {
   );
 }
 
-export default EventsPage;
+export default AllEventsPage;

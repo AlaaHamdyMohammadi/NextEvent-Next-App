@@ -1,9 +1,9 @@
-function EventDifferentPage() {
+function FilteredEventsPage() {
   return (
     <div>
-      <h1>🎉🎉 Event Different Page 🎉🎉</h1>
+      <h1>🎉🎉 Filtered Events Page 🎉🎉</h1>
     </div>
   );
 }
 
-export default EventDifferentPage;
+export default FilteredEventsPage;

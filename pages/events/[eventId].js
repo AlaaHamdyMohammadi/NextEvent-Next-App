@@ -1,9 +1,9 @@
-function EventIdPage() {
+function EventDetailPage() {
   return (
     <div>
-      <h1>🎉 Event Id Page 🎉</h1>
+      <h1>🎉 Event Detail Page 🎉</h1>
     </div>
   );
 }
 
-export default EventIdPage;
+export default EventDetailPage;
