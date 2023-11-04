@@ -1,7 +1,9 @@
+import EventItem from "./EventItem"
+
 function EventList({items}) {
     return (
         <ul>
-            {items.map((item) => <li key={item.id}>{}</li>)}
+            {items.map((item) => <EventItem key={item.id} item={item}/>)}
         </ul>
     )
 }
