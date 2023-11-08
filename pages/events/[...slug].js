@@ -34,11 +34,33 @@ function FilteredEventsPage() {
     }
   }, [data]);
 
+  let pageHead = (
+    <Head>
+      <title>{`NextJS Events | Event Filtered`}</title>
+      <meta name="description" content={`A list of filtered events`} />
+    </Head>
+  );
+
   if (!filterData || !loadedEvents)
-    return <h1 className="center">Loading..</h1>; //Like Spinner
+    return (
+      <>
+        {pageHead}
+        <h1 className="center">Loading..</h1>; //Like Spinner
+      </>
+    );
 
   const filteredYear = +filterData[0];
   const filteredMonth = +filterData[1];
+
+  pageHead = (
+    <Head>
+      <title>{`NextJS Events | ${filteredMonth}/${filteredYear}`}</title>
+      <meta
+        name="description"
+        content={`All events for ${filteredMonth}/${filteredYear}`}
+      />
+    </Head>
+  );
 
   if (
     isNaN(filteredYear) ||
@@ -48,10 +70,13 @@ function FilteredEventsPage() {
     error
   ) {
     return (
+      <>
+      {pageHead}
       <div className="center">
-        <ErrorAlert>Invalid Data</ErrorAlert>
-        <Button link={"/events"}>Show All Events</Button>
+      <ErrorAlert>Invalid Data</ErrorAlert>
+      <Button link={"/events"}>Show All Events</Button>
       </div>
+      </>
     );
   }
 
@@ -65,10 +90,13 @@ function FilteredEventsPage() {
 
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
+      <>
+      {pageHead}
       <div className="center">
-        <ErrorAlert>No Event Yet</ErrorAlert>
-        <Button link={"/events"}>Show All Events</Button>
+      <ErrorAlert>No Event Yet</ErrorAlert>
+      <Button link={"/events"}>Show All Events</Button>
       </div>
+      </>
     );
   }
 
