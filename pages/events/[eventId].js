@@ -8,6 +8,7 @@ import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/ErrorAlert";
+import Head from "next/head";
 
 function EventDetailPage(props) {
   const { event } = props;
@@ -15,6 +16,10 @@ function EventDetailPage(props) {
 
   return (
     <>
+      <Head>
+        <title>{`NextJS Events | ${event.title}`}</title>
+        <meta name="description" content={event.description} />
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}

@@ -2,7 +2,6 @@ import Head from 'next/head';
 import EventList from "../components/events/EventList";
 import { getFeaturedEvents } from "../helpers/api-util";
 import ErrorAlert from '../components/ui/ErrorAlert';
-import { isPromiseLike } from 'swr/_internal';
 
 function HomePage(props){
     const {featuredEvents} = props;
