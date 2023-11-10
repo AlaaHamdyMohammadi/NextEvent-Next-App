@@ -7,7 +7,7 @@ function handler(req, res){
 
         if(!email || !email.includes('@')){
             res.status(422).json({message: 'Invalid email address!'});
-            return
+            return;
         }
 
         const newRegister = {
