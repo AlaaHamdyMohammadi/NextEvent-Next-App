@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import {
   getEventById,
   getAllEvents,
@@ -9,6 +8,7 @@ import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/ErrorAlert";
 import Head from "next/head";
+import Comments from '../../components/input/comments';
 
 function EventDetailPage(props) {
   const { event } = props;
@@ -30,6 +30,7 @@ function EventDetailPage(props) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id}/>
     </>
   );
 }
