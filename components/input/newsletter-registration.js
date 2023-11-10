@@ -1,14 +1,25 @@
 import { useRef } from 'react';
 import classes from './newsletter-registration.module.css';
+import axios from 'axios';
 
 function NewsletterRegistration() {
   const emailInputRef = useRef();
 
-  function registrationHandler(event) {
+  async function registrationHandler(event) {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
-    
+    const reqBody = {email: enteredEmail}
+
+    const res = await axios.post(`/api/register`, reqBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res;
+    console.log(data)
+
 
     // fetch user input (state or refs)
     // optional: validate input
