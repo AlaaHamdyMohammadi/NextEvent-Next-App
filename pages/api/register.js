@@ -1,7 +1,7 @@
 import {MongoClient} from 'mongodb';
 
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
 
 async function handler(req, res){
     if(req.method === 'POST'){
