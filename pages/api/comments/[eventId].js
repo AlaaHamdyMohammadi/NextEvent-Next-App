@@ -1,5 +1,7 @@
 import { MongoClient } from "mongodb";
 
+
+
 async function handler(req, res) {
     const eventId = req.query.eventId;
     const client = await MongoClient.connect(

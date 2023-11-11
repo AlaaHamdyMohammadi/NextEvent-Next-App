@@ -1,39 +1,45 @@
-import {MongoClient} from 'mongodb';
+import { MongoClient } from "mongodb";
 
-// import fs from 'fs';
-// import path from 'path';
+async function connectWithDatabase() {
+  const client = await MongoClient.connect(
+    `mongodb+srv://alaahamdy2197:41V4yYHS5vKVWmiR@cluster0.mbaesyp.mongodb.net/events?retryWrites=true&w=majority`
+  );
 
-async function handler(req, res){
-    if(req.method === 'POST'){
-        const {email} = req.body;
+  return client;
+}
 
-        if(!email || !email.includes('@')){
-            res.status(422).json({message: 'Invalid email address!'});
-            return;
-        }
+async function insertDocument(client, document) {
+  const db = client.db();
+  await db.collection("emails").insertOne(document);
+}
 
-        const client = await MongoClient.connect(
-          `mongodb+srv://alaahamdy2197:41V4yYHS5vKVWmiR@cluster0.mbaesyp.mongodb.net/events?retryWrites=true&w=majority`
-        );
-        const db = client.db();
-        await db.collection('emails').insertOne({email})
-        client.close();
+async function handler(req, res) {
+  if (req.method === "POST") {
+    const { email } = req.body;
 
-        // const newRegister = {
-        //     id: new Date().toISOString(),
-        //     email,
-        // }
-
-        // const filePath = path.join(process.cwd(), 'data', 'data.json');
-        // const fileData = fs.readFileSync(filePath);
-        // const data = JSON.parse(fileData);
-        // data.push(newRegister);
-        // fs.writeFileSync(filePath, JSON.stringify(data));
-        // res.status(201).json({message: "Data Successfully Added.", data: newRegister})
-        res.status(201).json({message: "Data Successfully Added."})
-    }else{
-        res.status(200).json({message: 'Successfully Work!'})
+    if (!email || !email.includes("@")) {
+      res.status(422).json({ message: "Invalid email address!" });
+      return;
     }
+    let client;
+    try {
+      client = await connectWithDatabase();
+    } catch (err) {
+      res.status(500).json({ message: "Connecting with database faild!" });
+      return; // to not complete the below code
+    }
+    try {
+      await insertDocument(client, { email });
+      client.close();
+    } catch (err) {
+      res.status(500).json({ message: "Inserting data faild!" });
+      return;
+    }
+
+    res.status(201).json({ message: "Data Successfully Added." });
+  } else {
+    res.status(200).json({ message: "Successfully Work!" });
+  }
 }
 
 export default handler;
