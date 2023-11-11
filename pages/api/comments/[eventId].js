@@ -1,9 +1,9 @@
 import { MongoClient } from "mongodb";
 
 async function handler(req, res) {
-    const eventId = req.body;
+    const eventId = req.query.eventId;
     const client = await MongoClient.connect(
-      `mongodb+srv://alaahamdy2197:knltmhsjumbIIe3r@cluster0.27emoal.mongodb.net/NextJSEvents?retryWrites=true&w=majority`
+      `mongodb+srv://alaahamdy2197:41V4yYHS5vKVWmiR@cluster0.mbaesyp.mongodb.net/events?retryWrites=true&w=majority`
     );
 
   if (req.method === "POST") {
@@ -19,14 +19,14 @@ async function handler(req, res) {
       return;
     }
     const newComment = {
+    //   id: new Date().toISOString(),
       email,
       name,
       text,
-      eventId,
+      eventId
     };
     const db = client.db();
     const result = await db.collection("comments").insertOne(newComment);
-
     console.log(result);
 
     newComment.id = result.insertedId;
@@ -36,14 +36,15 @@ async function handler(req, res) {
       .json({ message: "Data Successfully Added.", data: newComment });
   }
   if (req.method === "GET") {
-    // const {eventId} = req.query;
-    const dummyList = [
-      { id: "c1", name: "Alaa", text: "Comment1" },
-      { id: "c2", name: "Arwa", text: "Comment2" },
-    ];
+    // const dummyList = [
+    //   { id: "c1", name: "Alaa", text: "Comment1" },
+    //   { id: "c2", name: "Arwa", text: "Comment2" },
+    // ];
+    const db = client.db();
+    const documents = await db.collection('comments').find().sort({_id: -1}).toArray();
     res
       .status(200)
-      .json({ message: "Data Successfully Added.", data: dummyList });
+      .json({ message: "Data Successfully Added.", data: documents });
   }
 
   client.close();

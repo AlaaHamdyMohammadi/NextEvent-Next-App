@@ -12,7 +12,9 @@ async function handler(req, res){
             return;
         }
 
-        const client = await MongoClient.connect(`mongodb+srv://alaahamdy2197:knltmhsjumbIIe3r@cluster0.27emoal.mongodb.net/NextJSEvents?retryWrites=true&w=majority`);
+        const client = await MongoClient.connect(
+          `mongodb+srv://alaahamdy2197:41V4yYHS5vKVWmiR@cluster0.mbaesyp.mongodb.net/events?retryWrites=true&w=majority`
+        );
         const db = client.db();
         await db.collection('emails').insertOne({email})
         client.close();

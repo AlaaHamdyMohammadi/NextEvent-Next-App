@@ -14,7 +14,7 @@ function Comments(props) {
   useEffect(() => {
     if (showComments) {
       axios.get(`/api/comments/${eventId}`).then((res) => {
-        console.log(res.data.data);
+        //console.log(res);
         setComments(res.data.data);
       });
     }

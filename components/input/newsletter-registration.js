@@ -11,19 +11,29 @@ function NewsletterRegistration() {
     const enteredEmail = emailInputRef.current.value;
     const reqBody = {email: enteredEmail}
 
-    const res = await axios.post(`/api/register`, reqBody, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    // const res = await axios.post(`/api/register`, reqBody, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
 
-    const data = await res;
-    console.log(data)
+    // const data = await res;
+    // console.log(res)
 
 
     // fetch user input (state or refs)
     // optional: validate input
     // send valid data to API
+
+    fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({ email: enteredEmail }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   return (
