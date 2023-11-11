@@ -1,12 +1,18 @@
-import { MongoClient } from "mongodb";
-
-
+import {
+  connectWithDatabase,
+  insertDocument,
+  getAllDocuments,
+} from "../../../helpers/db-util";
 
 async function handler(req, res) {
-    const eventId = req.query.eventId;
-    const client = await MongoClient.connect(
-      `mongodb+srv://alaahamdy2197:41V4yYHS5vKVWmiR@cluster0.mbaesyp.mongodb.net/events?retryWrites=true&w=majority`
-    );
+  const eventId = req.query.eventId;
+
+  let client;
+  try {
+    client = await connectWithDatabase();
+  } catch (err) {
+    res.status(500).json({ message: "Connecting with database faild!" });
+  }
 
   if (req.method === "POST") {
     const { email, name, text } = req.body;
@@ -18,35 +24,37 @@ async function handler(req, res) {
       text.trim() === ""
     ) {
       res.status(422).json({ message: "Invalid data!" });
+    client.close();
       return;
     }
     const newComment = {
-    //   id: new Date().toISOString(),
       email,
       name,
       text,
-      eventId
+      eventId,
     };
-    const db = client.db();
-    const result = await db.collection("comments").insertOne(newComment);
-    console.log(result);
 
-    newComment.id = result.insertedId;
-
-    res
-      .status(201)
-      .json({ message: "Data Successfully Added.", data: newComment });
+    try {
+      const result = await insertDocument(client, "comments", newComment);
+      newComment._id = result.insertedId;
+      res
+        .status(201)
+        .json({ message: "Data Successfully Added.", data: newComment });
+    } catch (err) {
+      res.status(500).json({ message: "Inserting data faild!" });
+      return;
+    }
   }
+
   if (req.method === "GET") {
-    // const dummyList = [
-    //   { id: "c1", name: "Alaa", text: "Comment1" },
-    //   { id: "c2", name: "Arwa", text: "Comment2" },
-    // ];
-    const db = client.db();
-    const documents = await db.collection('comments').find().sort({_id: -1}).toArray();
-    res
-      .status(200)
-      .json({ message: "Data Successfully Added.", data: documents });
+    try {
+      const documents = await getAllDocuments(client, "comments", { _id: -1 });
+      res
+        .status(200)
+        .json({ message: "Data Successfully Added.", data: documents });
+    } catch (err) {
+      res.status(500).json({ message: "Get all data is faild!" });
+    }
   }
 
   client.close();
