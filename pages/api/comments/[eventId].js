@@ -48,7 +48,7 @@ async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const documents = await getAllDocuments(client, "comments", { _id: -1 });
+      const documents = await getAllDocuments(client, "comments", { _id: -1 }, {eventId});
       res
         .status(200)
         .json({ message: "Data Successfully Added.", data: documents });
