@@ -7,7 +7,7 @@ export async function connectWithDatabase() {
 
   return client;
 }
-
+ 
 export async function insertDocument(client , collection, document) {
   const db = client.db();
   const result = await db.collection(collection).insertOne(document);
